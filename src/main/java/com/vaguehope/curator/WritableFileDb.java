@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vaguehope.curator.data.FileData;
+
 public class WritableFileDb implements Closeable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WritableFileDb.class);

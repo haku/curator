@@ -34,7 +34,9 @@ public class Main {
 
 	private static void run(final Args args) throws Exception {
 		final FileDb db = new FileDb(args.getDb());
-		new Curator(db, args).run();
+		final FileCopier fileCopier = new FileCopier(args.isDryRun());
+		final FileHasher fileHasher = new FileHasher(db);
+		new Curator(fileCopier, fileHasher, args).run();
 	}
 
 	private static void help(final CmdLineParser parser, final PrintStream ps) {

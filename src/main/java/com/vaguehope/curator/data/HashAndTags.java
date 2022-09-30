@@ -1,4 +1,4 @@
-package com.vaguehope.curator;
+package com.vaguehope.curator.data;
 
 import java.math.BigInteger;
 import java.util.Collection;

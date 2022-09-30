@@ -9,6 +9,7 @@ public class Args {
 	@Option(name = "-h", aliases = { "--help" }, usage = "Print this help text.") private boolean help;
 	@Option(name = "--src", usage = "Dir path to read files from.", required = true) private String src;
 	@Option(name = "--dest", usage = "Dir path to manage files in.", required = true) private String dest;
+	@Option(name = "--dryrun", usage = "Do not modify file system.", required = false) private boolean dryRun;
 	@Option(name = "--db", usage = "File path to metadata DB.", required = true) private String db;
 	@Option(name = "--tagsout", usage = "File path to write sha1tags file to.") private String tagsout;
 
@@ -30,6 +31,10 @@ public class Args {
 
 	public File getDest() throws ArgsException {
 		return dirMustExist(this.dest);
+	}
+
+	public boolean isDryRun() {
+		return this.dryRun;
 	}
 
 	public File getDb() {

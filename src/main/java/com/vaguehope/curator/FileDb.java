@@ -12,6 +12,8 @@ import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteConfig.Encoding;
 import org.sqlite.SQLiteConfig.TransactionMode;
 
+import com.vaguehope.curator.data.FileData;
+
 public class FileDb {
 
 	private final String path;
