@@ -29,35 +29,37 @@ public class Curator {
 
 	private final FileCopier fileCopier;
 	private final FileHasher fileHasher;
+	private final FileRemover fileRemover;
 	private final File srcDir;
 	private final File destDir;
 
-	public Curator(final FileCopier fileCopier, final FileHasher fileHasher, final Args args) throws ArgsException {
+	public Curator(final FileCopier fileCopier, final FileHasher fileHasher, final FileRemover fileRemover, final Args args) throws ArgsException {
 		this.fileCopier = fileCopier;
 		this.fileHasher = fileHasher;
+		this.fileRemover = fileRemover;
 		this.srcDir = args.getSrc();
 		this.destDir = args.getDest();
 	}
 
 	public void run() throws IOException, SQLException {
 		final Collection<File> srcFiles = FileUtils.listFiles(this.srcDir, FILE_FILTER, TrueFileFilter.INSTANCE);
-		LOG.info("src files: {} files", srcFiles.size());
+		LOG.info("src files: {}", srcFiles.size());
 		final Collection<SrcAndDest> toCopy = filesToCopy(srcFiles);
-		LOG.info("to copy: {} files", toCopy.size());
+		LOG.info("files to copy: {}", toCopy.size());
 		for (final SrcAndDest sd : toCopy) {
 			this.fileCopier.copy(sd);
 		}
 
 		final Collection<File> destFiles = FileUtils.listFiles(this.destDir, FILE_FILTER, TrueFileFilter.INSTANCE);
-		LOG.info("dest files: {} files", srcFiles.size());
+		LOG.info("dest files: {}", srcFiles.size());
 		final DestFiles destFilesInAndNotInSrc = destFilesInAndNotInSrc(destFiles);
-		LOG.info("dest files in src: {} files", destFilesInAndNotInSrc.getInSrc().size());
-		LOG.info("dest files not in src: {} files", destFilesInAndNotInSrc.getNotInSrc().size());
+		LOG.info("dest files in src: {}", destFilesInAndNotInSrc.getInSrc().size());
+		LOG.info("dest files not in src: {}", destFilesInAndNotInSrc.getNotInSrc().size());
 
 		final Collection<DupeAndCanonical> toRemove = findDuplicateFiles(destFilesInAndNotInSrc.getNotInSrc(), destFilesInAndNotInSrc.getInSrc());
-		LOG.info("to remove: {} files", toRemove.size());
+		LOG.info("files to remove: {}", toRemove.size());
 		for (final DupeAndCanonical dac : toRemove) {
-			LOG.info("TODO Remove: {}  (canonical: {})", dac.getDupe(), dac.getCanonical());
+			this.fileRemover.remove(dac);
 		}
 	}
 

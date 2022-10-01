@@ -36,7 +36,8 @@ public class Main {
 		final FileDb db = new FileDb(args.getDb());
 		final FileCopier fileCopier = new FileCopier(args.isDryRun());
 		final FileHasher fileHasher = new FileHasher(db);
-		new Curator(fileCopier, fileHasher, args).run();
+		final FileRemover fileRemover = new FileRemover(args.isDryRun());
+		new Curator(fileCopier, fileHasher, fileRemover, args).run();
 	}
 
 	private static void help(final CmdLineParser parser, final PrintStream ps) {
