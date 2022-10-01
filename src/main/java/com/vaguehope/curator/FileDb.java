@@ -34,7 +34,8 @@ public class FileDb {
 				+ "file STRING NOT NULL PRIMARY KEY, "
 				+ "size INT NOT NULL, "
 				+ "modified INT NOT NULL, "
-				+ "sha1 STRING NOT NULL);");
+				+ "sha1 STRING NOT NULL,"
+				+ "md5 STRING NOT NULL);");
 	}
 
 	@SuppressWarnings("resource")

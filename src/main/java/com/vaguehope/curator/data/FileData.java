@@ -2,6 +2,7 @@ package com.vaguehope.curator.data;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import com.vaguehope.curator.util.HashHelper;
 import com.vaguehope.curator.util.HashHelper.Md5AndSha1;
@@ -50,6 +51,23 @@ public class FileData {
 	@Override
 	public String toString() {
 		return String.format("FileData{%s, %s, %s, %s}", this.size, this.modified, this.sha1, this.md5);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.size, this.modified, this.sha1, this.md5);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) return false;
+		if (this == obj) return true;
+		if (!(obj instanceof FileData)) return false;
+		final FileData that = (FileData) obj;
+		return Objects.equals(this.size, that.size)
+				&& Objects.equals(this.modified, that.modified)
+				&& Objects.equals(this.sha1, that.sha1)
+				&& Objects.equals(this.md5, that.md5);
 	}
 
 }
