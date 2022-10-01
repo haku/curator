@@ -42,6 +42,11 @@ public class Curator {
 	}
 
 	public void run() throws IOException, SQLException {
+		copyNewFilesFromSrcToDest();
+		findAndRemoveFilesInDestThatHaveMoved();
+	}
+
+	private void copyNewFilesFromSrcToDest() throws IOException {
 		final Collection<File> srcFiles = FileUtils.listFiles(this.srcDir, FILE_FILTER, TrueFileFilter.INSTANCE);
 		LOG.info("src files: {}", srcFiles.size());
 		final Collection<SrcAndDest> toCopy = filesToCopy(srcFiles);
@@ -49,9 +54,11 @@ public class Curator {
 		for (final SrcAndDest sd : toCopy) {
 			this.fileCopier.copy(sd);
 		}
+	}
 
+	private void findAndRemoveFilesInDestThatHaveMoved() throws IOException, SQLException {
 		final Collection<File> destFiles = FileUtils.listFiles(this.destDir, FILE_FILTER, TrueFileFilter.INSTANCE);
-		LOG.info("dest files: {}", srcFiles.size());
+		LOG.info("dest files: {}", destFiles.size());
 		final DestFiles destFilesInAndNotInSrc = destFilesInAndNotInSrc(destFiles);
 		LOG.info("dest files in src: {}", destFilesInAndNotInSrc.getInSrc().size());
 		LOG.info("dest files not in src: {}", destFilesInAndNotInSrc.getNotInSrc().size());
