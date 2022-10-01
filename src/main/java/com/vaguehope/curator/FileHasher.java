@@ -34,7 +34,12 @@ public class FileHasher {
 		}
 
 		final FileData fileData = FileData.forFile(file);
-		w.storeFileData(file, fileData);
+		if (fileDataInDb != null) {
+			w.updateFileData(file, fileData);
+		}
+		else {
+			w.storeFileData(file, fileData);
+		}
 		return new FileAndData(file, fileData);
 	}
 

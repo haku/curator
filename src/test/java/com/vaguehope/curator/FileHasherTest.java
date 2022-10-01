@@ -47,7 +47,7 @@ public class FileHasherTest {
 	}
 
 	@Test
-	public void itDoesSomething() throws Exception {
+	public void itReadsExistingHash() throws Exception {
 		final File f1 = this.tmp.newFile();
 		FileUtils.write(f1, "123", StandardCharsets.UTF_8);
 		final FileData fd = new FileData(3, f1.lastModified(), "abc", "def");
@@ -56,6 +56,20 @@ public class FileHasherTest {
 		}
 
 		assertEquals(fd, this.undertest.dataForFiles(Arrays.asList(f1)).iterator().next().getData());
+	}
+
+	@Test
+	public void itUpdatesExistingHash() throws Exception {
+		final File f1 = this.tmp.newFile();
+		FileUtils.write(f1, "123", StandardCharsets.UTF_8);
+		final FileData fd = new FileData(3, f1.lastModified(), "abc", "def");
+		try (final WritableFileDb w = this.filedb.getWritable()) {
+			w.storeFileData(f1, fd);
+		}
+
+		FileUtils.write(f1, "foobar", StandardCharsets.UTF_8);
+		final List<FileAndData> actual = new ArrayList<>(this.undertest.dataForFiles(Arrays.asList(f1)));
+		assertEquals(FOOBAR_SHA1, actual.get(0).getData().getSha1());
 	}
 
 }
