@@ -39,6 +39,10 @@ public class FileRemover {
 			throw new IllegalStateException("Duplicate and canonical files to do not have equal content: " + dac);
 		}
 
+		if (dac.getCanonical().getCanonicalPath().equals(dac.getDupe().getCanonicalPath())) {
+			throw new IllegalStateException("Duplicate and canonical files are the same file: " + dac);
+		}
+
 		if (this.dryRun) {
 			LOG.info("[dryrun] rm \"{}\"  (canonical: \"{}\")", dac.getDupe(), dac.getCanonical());
 		}

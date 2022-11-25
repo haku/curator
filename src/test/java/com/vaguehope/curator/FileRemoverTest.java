@@ -99,6 +99,22 @@ public class FileRemoverTest {
 	}
 
 	@Test
+	public void itDoesNotDeleteIfFilesAreTheSame() throws Exception {
+		final File f = fileWithContent("abc");
+		final DupeAndCanonical dac = new DupeAndCanonical(
+				f,
+				new File(f.getAbsolutePath()));
+		try {
+			new FileRemover(false).remove(dac);
+			fail("did not throw");
+		}
+		catch (final IllegalStateException e) {
+			assertThat(e.getMessage(), startsWith("Duplicate and canonical files are the same file:"));
+		}
+		assertTrue(dac.getDupe().exists());
+	}
+
+	@Test
 	public void itDeletesAFile() throws Exception {
 		final DupeAndCanonical dac = new DupeAndCanonical(
 				fileWithContent("abc"),
