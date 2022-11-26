@@ -11,6 +11,7 @@ public class Args {
 	@Option(name = "--dest", usage = "Dir path to manage files in.", required = true) private String dest;
 	@Option(name = "--dryrun", usage = "Do not modify file system.", required = false) private boolean dryRun;
 	@Option(name = "--db", usage = "File path to metadata DB.", required = true) private String db;
+	@Option(name = "--tagsmap", usage = "JSON file of tag mappings.") private String tagmap;
 	@Option(name = "--tagsout", usage = "File path to write sha1tags file to.") private String tagsout;
 
 	public static class ArgsException extends Exception {
@@ -39,6 +40,10 @@ public class Args {
 
 	public File getDb() {
 		return new File(this.db);
+	}
+
+	public File getTagsmap() {
+		return this.tagmap != null ? new File(this.tagmap) : null;
 	}
 
 	public File getTagsout() {

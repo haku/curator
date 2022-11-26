@@ -12,13 +12,15 @@ import com.vaguehope.curator.Args.ArgsException;
 
 public class Curator {
 
-	private static final SuffixFileFilter FILE_FILTER = new SuffixFileFilter(new ArrayList<>(C.MEDIA_FILE_EXTENSIONS), IOCase.INSENSITIVE);
+	static final SuffixFileFilter FILE_FILTER = new SuffixFileFilter(new ArrayList<>(C.MEDIA_FILE_EXTENSIONS), IOCase.INSENSITIVE);
 
 	private final FileCopier fileCopier;
 	private final FileHasher fileHasher;
 	private final FileRemover fileRemover;
 	private final File srcDir;
 	private final File destDir;
+	private File tagMap;
+	private final File outputTags;
 
 	public Curator(final FileCopier fileCopier, final FileHasher fileHasher, final FileRemover fileRemover, final Args args) throws ArgsException {
 		this.fileCopier = fileCopier;
@@ -26,12 +28,14 @@ public class Curator {
 		this.fileRemover = fileRemover;
 		this.srcDir = args.getSrc();
 		this.destDir = args.getDest();
+		this.tagMap = args.getTagsmap();
+		this.outputTags = args.getTagsout();
 	}
 
 	public void run() throws IOException, SQLException {
 		new CopyNewFilesFromSrcToDest(this.srcDir, this.destDir, FILE_FILTER, this.fileCopier).run();
 		new FindAndRemoveFilesInDestThatHaveMoved(this.srcDir, this.destDir, FILE_FILTER, this.fileHasher, this.fileRemover).run();
-//		new InferTagsFromDirs(this.srcDir, this.fileHasher).run();
+		new InferTagsFromDirs(this.srcDir, FILE_FILTER, this.fileHasher, this.tagMap, this.outputTags).run();
 	}
 
 }

@@ -1,36 +1,27 @@
 package com.vaguehope.curator.data;
 
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-class HashAndTags {
+public class HashAndTags {
 
-	private final BigInteger md5;
+	private final BigInteger sha1;
 	private final List<ImporterTag> tags;
 
-	public HashAndTags(final BigInteger md5, final List<ImporterTag> tags) {
-		this.md5 = md5;
+	public HashAndTags(final BigInteger sha1, final List<ImporterTag> tags) {
+		this.sha1 = sha1;
 		this.tags = tags;
-	}
-
-	public BigInteger getMd5() {
-		return this.md5;
-	}
-
-	public Collection<ImporterTag> getTags() {
-		return this.tags;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("HashAndTags{%s, %s}", this.md5, this.tags);
+		return String.format("HashAndTags{%s, %s}", this.sha1, this.tags);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.md5, this.tags);
+		return Objects.hash(this.sha1, this.tags);
 	}
 
 	@Override
@@ -39,7 +30,7 @@ class HashAndTags {
 		if (this == obj) return true;
 		if (!(obj instanceof HashAndTags)) return false;
 		final HashAndTags that = (HashAndTags) obj;
-		return Objects.equals(this.md5, that.md5)
+		return Objects.equals(this.sha1, that.sha1)
 				&& Objects.equals(this.tags, that.tags);
 	}
 
