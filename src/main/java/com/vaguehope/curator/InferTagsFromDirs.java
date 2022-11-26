@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,6 +89,8 @@ public class InferTagsFromDirs {
 		if (hashesAndTags.size() < filesToTag.size()) {
 			throw new IllegalStateException("Expected " + filesToTag.size() + " files with tags but only got " + hashesAndTags.size() + ".");
 		}
+
+		Collections.sort(hashesAndTags, HashAndTags.Order.SHA1);
 
 		final Gson gson = new GsonBuilder()
 				.registerTypeAdapter(BigInteger.class, new BigIntegerSerializer())

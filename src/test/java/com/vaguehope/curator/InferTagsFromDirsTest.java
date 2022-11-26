@@ -35,7 +35,7 @@ public class InferTagsFromDirsTest {
 
 	private final String mapping = "{\n"
 			+ "\"cute-things\": \"cute\",\n"
-			+ "\"other-things\": [\"also\", \"other\"]\n"
+			+ "\"other-things\": [\"other\", \"also\"]\n"
 			+ "}\n";
 
 	@Before
@@ -120,9 +120,9 @@ public class InferTagsFromDirsTest {
 		this.undertest.run();
 
 		assertEquals("["
+				+ "{\"sha1\":\"aaa\",\"tags\":[{\"tag\":\"also\",\"cls\":\"Curator\"},{\"tag\":\"other\",\"cls\":\"Curator\"}]},"
 				+ "{\"sha1\":\"abc\",\"tags\":[{\"tag\":\"cute\",\"cls\":\"Curator\"}]},"
-				+ "{\"sha1\":\"cba\",\"tags\":[{\"tag\":\"cute\",\"cls\":\"Curator\"}]},"
-				+ "{\"sha1\":\"aaa\",\"tags\":[{\"tag\":\"also\",\"cls\":\"Curator\"},{\"tag\":\"other\",\"cls\":\"Curator\"}]}"
+				+ "{\"sha1\":\"cba\",\"tags\":[{\"tag\":\"cute\",\"cls\":\"Curator\"}]}"
 				+ "]",
 				FileUtils.readFileToString(this.outputTags, StandardCharsets.UTF_8));
 	}
