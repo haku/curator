@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.HiddenFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class CopyNewFilesFromSrcToDest {
 	}
 
 	public void run() throws IOException {
-		final Collection<File> srcFiles = FileUtils.listFiles(this.srcDir, this.fileFilter, TrueFileFilter.INSTANCE);
+		final Collection<File> srcFiles = FileUtils.listFiles(this.srcDir, this.fileFilter, HiddenFileFilter.VISIBLE);
 		LOG.info("src files: {}", srcFiles.size());
 		final Collection<SrcAndDest> toCopy = filesToCopy(srcFiles);
 		LOG.info("files to copy: {}", toCopy.size());
