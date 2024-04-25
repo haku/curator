@@ -31,7 +31,7 @@ public class CopyNewFilesFromSrcToDest {
 	}
 
 	public void run() throws IOException {
-		final Collection<File> srcFiles = FileUtils.listFiles(this.srcDir, this.fileFilter, HiddenFileFilter.VISIBLE);
+		final Collection<File> srcFiles = FileUtils.listFiles(this.srcDir, HiddenFileFilter.VISIBLE.and(this.fileFilter), HiddenFileFilter.VISIBLE);
 		LOG.info("src files: {}", srcFiles.size());
 		final Collection<SrcAndDest> toCopy = filesToCopy(srcFiles);
 		LOG.info("files to copy: {}", toCopy.size());
