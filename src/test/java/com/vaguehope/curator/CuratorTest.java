@@ -137,15 +137,13 @@ public class CuratorTest {
 		final File df2 = mkFileWithContent(dd2, "f2.jpg", "abcdef");
 		mkFileWithContent(dd2, "f2.gif", "ghijkl");
 
+		// the src file is needed to inform which dest file to keep and which to remove.
 		final File sd2 = mkDir(this.srcDir, "dir2");
-		mkFileWithContent(sd2, "f2.jpg", "abcdef");
-
-		final File sd3 = mkDir(this.srcDir, "dir3");
-		final File sf3 = mkFileWithContent(sd3, "f3.jpg", "abcdef");
+		final File sf2 = mkFileWithContent(sd2, "f2.jpg", "abcdef");
+		sf2.setLastModified(df2.lastModified());
 
 		this.undertest.run();
 
-		verify(this.fileCopier).copy(new SrcAndDest(sf3, new File(this.destDir, "dir3/f3.jpg")));
 		verifyNoMoreInteractions(this.fileCopier);
 
 		verify(this.fileRemover).remove(new DupeAndCanonical(df1, df2));
