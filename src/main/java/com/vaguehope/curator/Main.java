@@ -23,7 +23,7 @@ public class Main {
 		catch (final ArgsException e) {
 			err.println(e.getMessage());
 			help(parser, err);
-			return;
+			System.exit(1);
 		}
 		catch (final Exception e) {
 			err.println("An unhandled error occured.");
