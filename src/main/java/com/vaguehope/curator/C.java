@@ -11,6 +11,7 @@ public interface C {
 			".jpeg",
 			".jpg",
 			".png",
+			".svg",
 			".webp",
 			".mp4"
 			)));
